@@ -2,6 +2,10 @@
 
 Dự án kiểm thử tự động (automated testing) cho website bán vé xem phim **HubCinema**. Dự án sử dụng mô hình **Page Object Model (POM)** kết hợp với bộ dữ liệu test được quản lý bằng file Excel, cho phép chạy và ghi nhận kết quả kiểm thử một cách có hệ thống.
 
+Dự án chạy Selenium trên 2 project frontend sau:
+- https://github.com/Khanguyen2005/HubCinema-WebUser
+- https://github.com/Khanguyen2005/HubCinema-WebAdmin
+
 ---
 
 ## 📌 Mục tiêu
