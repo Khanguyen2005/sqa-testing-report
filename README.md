@@ -1,110 +1,88 @@
-# 🎬 HubCinema – Auto Test Project
+# HubCinema - Automated Testing Report
 
-Dự án kiểm thử tự động (automated testing) cho website bán vé xem phim **HubCinema**. Dự án sử dụng mô hình **Page Object Model (POM)** kết hợp với bộ dữ liệu test được quản lý bằng file Excel, cho phép chạy và ghi nhận kết quả kiểm thử một cách có hệ thống.
+<p align="center">
+  <img src="https://img.shields.io/badge/C%23-239120?logo=csharp&logoColor=white&style=flat" />
+  <img src="https://img.shields.io/badge/.NET%208-512BD4?logo=dotnet&logoColor=white&style=flat" />
+  <img src="https://img.shields.io/badge/Selenium-43B02A?logo=selenium&logoColor=white&style=flat" />
+  <img src="https://img.shields.io/badge/NUnit-25A162?logo=nunit&logoColor=white&style=flat" />
+</p>
 
----
+## Introduction
 
-## 📌 Mục tiêu
+HubCinema - Automated Testing Report is a Selenium-based functional UI testing project for both **HubCinema-WebUser** (customer frontend) and **HubCinema-WebAdmin** (admin frontend). It validates end-to-end flows such as authentication, booking tickets, payment, and cinema management, and records results into Excel reports.
 
-- Tự động hóa các kịch bản kiểm thử chức năng (functional testing) trên giao diện web của HubCinema.
-- Ghi nhận kết quả thực tế, trạng thái (Pass/Fail) và ảnh chụp màn hình trực tiếp vào file Excel.
-- Đảm bảo chất lượng các tính năng chính như đăng ký, đăng nhập, đặt vé, thanh toán, quản lý rạp chiếu, phòng chiếu, lịch chiếu, thực phẩm, tin tức và nhiều chức năng quản trị khác.
+Other components in the HubCinema ecosystem:
 
----
+- **HubCinemaAPI (Backend for User & Admin):** https://github.com/Khanguyen2005/HubCinemaAPI
+- **HubCinema-WebUser (Customer Frontend):** https://github.com/Khanguyen2005/HubCinema-WebUser
+- **HubCinema-WebAdmin (Admin Frontend):** https://github.com/Khanguyen2005/HubCinema-WebAdmin
 
-## 🛠️ Công nghệ sử dụng
+## Tech Stack
 
-| Công nghệ | Phiên bản | Mục đích |
-|---|---|---|
-| **C# / .NET** | .NET 8.0 | Ngôn ngữ và nền tảng thực thi chính |
-| **NUnit** | 3.14.0 | Framework kiểm thử đơn vị và tích hợp |
-| **NUnit3TestAdapter** | 4.5.0 | Adapter chạy NUnit trong Visual Studio / dotnet test |
-| **Selenium WebDriver** | 4.27.0 | Tự động hóa tương tác trình duyệt |
-| **Selenium.Support** | 4.27.0 | Các tiện ích hỗ trợ Selenium (waits, helpers) |
-| **ChromeDriver** | 146.x | Điều khiển trình duyệt Google Chrome |
-| **ClosedXML** | 0.102.3 | Đọc dữ liệu test và ghi kết quả vào file Excel (.xlsx) |
-| **Microsoft.NET.Test.Sdk** | 17.8.0 | SDK chạy và phát hiện test case |
-| **coverlet.collector** | 6.0.0 | Thu thập độ bao phủ code (code coverage) |
-| **System.Drawing.Common** | 7.0.0 | Hỗ trợ chụp ảnh màn hình (screenshot) |
+| Category | Technology | Version | Notes |
+| --- | --- | --- | --- |
+| Language & Runtime | C# / .NET | .NET 8.0 | Test project runtime |
+| Test Framework | NUnit | 3.14.0 | Test execution and assertions |
+| Browser Automation | Selenium WebDriver | 4.27.0 | UI automation APIs |
+| Browser Driver | ChromeDriver | 146.x | Drives Google Chrome |
+| Data & Reporting | ClosedXML | 0.102.3 | Read/write Excel test data and results |
 
----
+## Architecture & Folder Structure
 
-## 📁 Cấu trúc dự án
+The project applies **Page Object Model (POM)** for maintainable UI selectors and flows, combined with **Data-Driven Testing** where test inputs and outputs are stored in Excel. Each test reads data from `Data/DataTest.xlsx`, executes UI steps, then writes **Pass/Fail** status and screenshots back to the same workbook.
 
 ```
 sqa-testing-report/
 ├── Data/
-│   ├── DataTest.xlsx          # File Excel chứa test case, dữ liệu test và kết quả
-│   └── Screenshots/           # Ảnh chụp màn hình được lưu sau khi chạy test
-├── Models/
-│   └── TestCaseStep.cs        # Model đại diện cho một bước trong test case
-├── Pages/                     # Page Object Model – ánh xạ các trang giao diện
-├── Tests/                     # Các lớp test case theo từng chức năng
-├── Utilities/
-│   ├── DriverFactory.cs       # Khởi tạo và cấu hình ChromeDriver
-│   ├── ExcelTestCaseHelper.cs # Đọc/ghi test case từ/vào file Excel
-│   ├── PathHelper.cs          # Quản lý đường dẫn file
-│   └── ScreenshotHelper.cs    # Chụp và lưu ảnh màn hình
+│   ├── DataTest.xlsx          # Excel test data and results
+│   └── Screenshots/           # UI screenshots captured during test runs
+├── Models/                    # Test case models
+├── Pages/                     # Page Objects (POM)
+├── Tests/                     # Test cases grouped by features
+├── Utilities/                 # Driver, Excel, path, and screenshot helpers
 └── sqa-testing-report.csproj
 ```
 
----
+## Getting Started
 
-## 🧪 Phạm vi kiểm thử
+### 1) Clone and restore
 
-Dự án bao gồm các test case tự động cho các chức năng sau:
+```bash
+git clone https://github.com/Khanguyen2005/sqa-testing-report.git
+cd sqa-testing-report
 
-- **Xác thực người dùng**: Đăng ký, Đăng nhập, Cập nhật hồ sơ
-- **Đặt vé & Thanh toán**: Chọn phim, chọn ghế, đặt vé, thanh toán
-- **Quản lý rạp chiếu**: Tạo/Cập nhật rạp chiếu, phòng chiếu, sơ đồ ghế
-- **Quản lý lịch chiếu**: Tạo và quản lý suất chiếu
-- **Quản lý phim**: Danh sách phim (admin)
-- **Quản lý thực phẩm**: Tạo và chỉnh sửa thực phẩm
-- **Quản lý tin tức**: Tạo tin tức
-- **Quản lý tài khoản admin**: Tạo và cập nhật tài khoản admin
-- **Đăng nhập admin**: Kiểm thử xác thực phía admin
-- **Vé đã đặt**: Xem lịch sử vé
+dotnet restore
+```
 
----
+### 2) Prepare ChromeDriver
 
-## 👥 Thành viên nhóm
+- Install **Google Chrome**.
+- Ensure the **ChromeDriver** version matches your installed Chrome version.
+- The project references `Selenium.WebDriver.ChromeDriver`; update the package if you need a different driver build.
 
-| Thành viên | Số test case |
-|---|---|
-| Nguyễn Đàm Khá | 40 |
-| Nguyễn Xuân Bắc | 40 |
-| Lâm Tấn Thành | 40 |
-| Trần Duy Khoa | 40 |
-
-**Tổng cộng: 160 test case tự động**
-
----
-
-## 🚀 Hướng dẫn chạy
-
-### Yêu cầu
-- [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
-- Google Chrome (phiên bản tương thích với ChromeDriver đã cài)
-
-### Chạy toàn bộ test
+### 3) Run tests
 
 ```bash
 dotnet test
 ```
 
-### Chạy một test cụ thể
+### 4) View reports
 
-```bash
-dotnet test --filter "FullyQualifiedName~<TênTestClass>"
-```
+- Excel report: `Data/DataTest.xlsx`
+- Screenshots: `Data/Screenshots/`
 
-> **Lưu ý:** Mặc định trình duyệt sẽ hiển thị khi chạy test. Để chạy ở chế độ ẩn (headless), mở comment dòng `options.AddArgument("--headless")` trong file `Utilities/DriverFactory.cs`.
+## Key Features/Test Scope
 
----
+- Automated functional UI scenarios for both customer and admin frontends.
+- Records **Pass/Fail** status and embeds screenshot evidence in Excel.
+- **160 automated test cases** (40 test cases per member).
+- Coverage includes:
+  - **User flows:** Auth, browsing movies, selecting showtimes, seat layout selection, book tickets, payment.
+  - **Admin flows:** Auth, cinema management (cinema clusters/rooms/seat layout), showtimes scheduling, movie management, food/combos management, news management, user/admin account management.
 
-## 📊 Kết quả kiểm thử
+## Contributors
 
-Sau khi chạy, kết quả sẽ được ghi lại tự động vào file `Data/DataTest.xlsx` bao gồm:
-- **Actual Result**: Kết quả thực tế
-- **Status**: Pass / Fail
-- **Screenshots**: Tên file ảnh chụp màn hình tương ứng
+- Khá
+- Bắc
+- Khoa
+- Thành
